@@ -1,11 +1,11 @@
-FROM node:16.4.2-alpine3.14
+FROM node:16.4.2-alpine
 
-RUN apk update && apk upgrade
-RUN apk add wget
+ENV SERVER_PORT 3000
 
-RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
-RUN tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
-RUN rm dockerize-linux-amd64-v0.6.1.tar.gz  
+WORKDIR /app
+
+COPY . .
+RUN npm ci --prod 
 
 EXPOSE 3000
 
