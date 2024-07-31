@@ -13,26 +13,22 @@ services:
       - node
 
   node:
-    build: 
-      context: ./node
+    image: node:16.4.2-alpine
     container_name: node
-    command: node index.js
-    develop:
-      watch:
-        - action: sync
-          path: ./app
-          target: ./
-          ignore:
-            - node_modules
-        - action: rebuild
-          path: package.json
-
+    working_dir: /app
+    expose:
+      - 3000
     environment:
       - SERVER_PORT=3000
     networks:
       - node-net
     depends_on:
       - db
+    tty: true
+    restart: on_failure
+    volumes:
+      - ./node/:/app/
+    command: npx nodemon index.js
   
   db:
     image: postgres
@@ -48,6 +44,7 @@ services:
       POSTGRES_DB: node
     tty: true
     volumes:
+      - ./db:/var/lib/postgresql/data
       - ./dataset:/docker-entrypoint-initdb.d
     develop:
       watch:
