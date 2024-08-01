@@ -20,7 +20,6 @@ app.get('/inserir-usuario/:nome', (req,res) => {
 app.get('/', (req, res) => {
   dbUsers.getUsers()
   .then((nomes) => {  
-    console.log('teste de update 1') 
     console.log('Nomes cadastrados', nomes)
     if(nomes && nomes.length > 0)
       res.status(200).send(`<center><strong>Usuários</strong>: <ul>${nomes.map((nome) => '<li>' + nome.name + '</li>')}</ul></center>`)  
