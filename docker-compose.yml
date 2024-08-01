@@ -13,22 +13,17 @@ services:
       - node
 
   node:
-    image: node:16.4.2-alpine
+    build: 
+      context: ./node
     container_name: node
     working_dir: /app
-    expose:
-      - 3000
-    environment:
-      - SERVER_PORT=3000
     networks:
       - node-net
     depends_on:
       - db
     tty: true
-    restart: on_failure
     volumes:
       - ./node/:/app/
-    command: npx nodemon index.js
   
   db:
     image: postgres
